@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(circle at center, #0a0a0a 70%, #050505 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Encabezado */
+header {
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.logo-container {
+  width: 180px;
+  margin: 0 auto;
+  animation: pulseLogo 3s ease-in-out 3;
+}
+
+.logo {
+  width: 100%;
+  filter: drop-shadow(0 0 20px #ff7b00);
+}
+
+h1 {
+  color: #ff7b00;
+  text-shadow: 0 0 15px #ff7b00;
+  margin-top: 1rem;
+  font-size: 2.5rem;
+}
+
+.lema {
+  color: #ccc;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* Catálogo */
+.catalogo {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.catalogo h2 {
+  color: #ff7b00;
+  text-shadow: 0 0 10px #ff7b00;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.producto {
+  background: rgba(255, 123, 0, 0.1);
+  border: 2px solid #ff7b00;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(255, 123, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.producto:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #ff7b00;
+}
+
+.producto img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #ff7b00;
+}
+
+/* Pie de página */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #111;
+  color: #ff7b00;
+  border-top: 2px solid #ff7b00;
+}
+
+footer small {
+  display: block;
+  color: #999;
+  margin-top: 5px;
+  font-size: 0.8rem;
+}
+
+/* Animación del logo */
+@keyframes pulseLogo {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px #ff7b00);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 40px #ffb833);
+    transform: scale(1.1);
+  }
+}

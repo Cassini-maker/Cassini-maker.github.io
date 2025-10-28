@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Extruying 3D | Impresión Personalizada</title>
+  <style>
+   
+    * { box-sizing: border-box; }
+    html,body { height:100%; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at 10% 10%, #333337 0%, #35353b 50%, #535359 100%);
+      color: #ddd;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height: 1.45;
+    }
+
+    /* ----------------- CONTAINER ----------------- */
+    .container {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 18px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(20,20,22,0.6), rgba(12,12,13,0.7));
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,140,40,0.07);
+    }
+
+    /* ----------------- HEADER / LOGO EMBLEMA ----------------- */
+    header {
+      text-align: center;
+      padding: 28px 12px 8px;
+      position: relative;
+    }
+
+    .logo-emblem {
+      display: inline-block;
+      width: 220px;
+      height: 220px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(30,30,32,0.6), rgba(10,10,10,0.85));
+      border: 2px solid rgba(255,140,40,0.06);
+      box-shadow:
+        0 6px 30px rgba(0,0,0,0.7),
+        0 0 30px rgba(255,110,30,0.06);
+      padding: 18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin: 0 auto;
+    }
+
+    /* Logo image: pulso 3 veces al cargar, luego queda fija */
+    .logo-emblem img {
+      width: 84%;
+      height: auto;
+      display:block;
+      filter: drop-shadow(0 0 6px rgba(255,120,35,0.6));
+      animation: pulseGlow 1.9s ease-in-out 5;
+      animation-fill-mode: forwards;
+      transform-origin: center center;
+    }
+
+    @keyframes pulseGlow {
+      0%   { transform: scale(1); filter: drop-shadow(0 0 6px rgba(255,110,30,0.45)); }
+      35%  { transform: scale(1.12); filter: drop-shadow(0 0 28px rgba(255,140,60,0.95)); }
+      70%  { transform: scale(1.04); filter: drop-shadow(0 0 12px rgba(255,120,40,0.7)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,110,30,0.6)); }
+    }
+
+    
+    .brand-title {
+      margin-top: 12px;
+      font-size: 1.7rem;
+      letter-spacing: 3px;
+      color: #ff8a2b;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(255,110,30,0.12), 0 1px 0 rgba(0,0,0,0.6);
+    }
+
+    header p.lead {
+      max-width: 820px;
+      margin: 12px auto 0;
+      color: #cfcfcf;
+      font-size: 0.98rem;
+      opacity: 0.95;
+    }
+
+   
+    .tabs {
+      display:flex;
+      gap:10px;
+      justify-content: center;
+      margin: 22px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      background: linear-gradient(180deg,#3a3a3c,#0b0b0c);
+      border: 1px solid rgba(255,140,40,0.08);
+      color: #d4d4d4;
+      padding: 12px 18px;
+      border-radius: 10px 10px 0 0;
+      cursor:pointer;
+      font-weight:600;
+      transition: all .18s ease;
+      min-width: 140px;
+      text-align:center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .tab-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255,110,30,0.04); }
+    .tab-button.active {
+      background: linear-gradient(180deg, rgba(255,110,30,0.12), rgba(255,110,30,0.03));
+      color: #fff;
+      border-bottom: 2px solid rgba(255,140,40,0.12);
+      box-shadow: 0 8px 30px rgba(255,110,30,0.06);
+    }
+
+   
+    .tab-content {
+      display:none;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      border-radius: 0 12px 12px 12px;
+      margin-top: -6px;
+      border: 1px solid rgba(255,140,40,0.03);
+    }
+
+    .tab-content.active { display:block; }
+
+    h2, h3 {
+      color: #ff8a2b;
+      margin: 6px 0 12px;
+      text-shadow: 0 0 8px rgba(255,100,20,0.08);
+    }
+
+    p { color:#d3d3d3; }
+
+    img {
+      max-width:100%;
+      height:auto;
+      border-radius:8px;
+      display:block;
+    }
+
+    
+    .product-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+      height: 200;
+    }
+
+    .product-card {
+      background: linear-gradient(180deg, rgba(18,18,18,0.7), rgba(8,8,8,0.6));
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,140,40,0.04);
+      transition: transform .18s ease, box-shadow .18s ease;
+      height:10;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgb(254, 106, 0), 0 0 30px rgba(254, 106, 0);
+    }
+
+    .product-slider-container {
+      position:relative;
+      height: 220px;
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(30,30,30,0.6), rgba(10,10,10,0.7));
+    }
+    .product-slider-container img { width:100%; height:100%; object-fit:cover; display:none; }
+
+    .product-card h3 { margin: 12px 12px 6px; color:#fff; font-size:1.05rem; }
+    .product-card p { margin: 0 12px 10px; color:#cfcfcf; font-size:0.95rem; }
+
+    .price { font-weight:700; color:#ffd8b8; margin: 8px 12px; }
+
+    /* slider nav buttons */
+    .prev-btn, .next-btn {
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border-radius: 4px;
+      padding:8px 10px;
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      user-select:none;
+      z-index: 8;
+      transition: background .12s ease;
+    }
+    .prev-btn:hover, .next-btn:hover { background: rgba(0,0,0,0.75); }
+    .next-btn { right:8px; }
+    .prev-btn { left:8px; }
+
+   
+    .whatsapp-button {
+      display:inline-block;
+      background: linear-gradient(180deg,#22c55e,#17a34a);
+      color:#05210b;
+      padding:10px 14px;
+      border-radius:8px;
+      margin:10px 12px;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow: 0 6px 18px rgba(37,211,102,0.08);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .whatsapp-button:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(37,211,102,0.12); }
+
+ 
+    .nequi-panel {
+      margin-top:14px;
+      padding:12px;
+      border-radius:8px;
+      border: 1px dashed rgba(141,47,233,0.18);
+      background: linear-gradient(180deg, rgba(141,47,233,0.02), rgba(0,0,0,0.02));
+    }
+
+    table {
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      color: #ddd;
+    }
+    th, td {
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.03);
+      text-align:left;
+    }
+    th {
+      background: rgba(255,140,40,0.06);
+      color: #fff;
+    }
+
+   
+    footer {
+      margin-top: 18px;
+      padding: 14px 12px;
+      text-align:center;
+      color:#a9a9a9;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.02);
+    }
+    .contenedor-centrado {
+  text-align: center;
+}
+
+  
+    @media (max-width: 880px) {
+      .logo-emblem { width: 180px; height:180px; }
+    }
+    @media (max-width: 520px) {
+      .logo-emblem { width: 150px; height:150px; }
+      .brand-title { font-size:1.1rem; letter-spacing:2px; }
+      .tabs { gap:8px; }
+      .tab-button { min-width: 110px; padding:10px; font-size:0.95rem; }
+      .product-slider-container { height:160px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+ 
+      <div class="logo-emblem" aria-hidden="true">
+      
+        <img src="https://i.imgur.com/xLK0nMv.png" alt="Logo Extruying 3D - emblema">
+      </div>
+
+      <div class="brand-title">Extruying 3D</div>
+      <p class="lead">En Extruying 3D, la impresión es solo el paso final. Te ayudamos a diseñar y prototipar tu proyecto. Elige tu tipo de impresión en 3D.</p>
+    </header>
+
+  
+    <div class="tabs" role="tablist" aria-label="Secciones">
+      <button class="tab-button" onclick="openTab(event,'catalogo')" aria-controls="catalogo" role="tab">Catálogo / Tienda</button>
+      <button class="tab-button active" onclick="openTab(event,'encargos')" aria-controls="encargos" role="tab">Encargos Personalizados</button>
+      <button class="tab-button" onclick="openTab(event,'cad')" aria-controls="cad" role="tab">Piezas CAD y Técnicas</button>
+      <button class="tab-button" onclick="openTab(event,'variedades')" aria-controls="variedades" role="tab">Diseño y Utilidades</button>
+      <button class="tab-button" onclick="openTab(event,'mega')" aria-controls="mega" role="tab">Mega Proyectos</button>
+    </div>
+
+    <section id="encargos" class="tab-content active" role="tabpanel">
+      <h2>¡Haz Realidad tu Idea en 3D!</h2>
+      <h3>Figuras Animadas y Modelos Artísticos</h3>
+      <p>Transformamos personajes 2D, diseños de videojuegos o modelos decorativos en <strong>piezas coleccionables</strong> con excelente detalle. Ideales para regalos o decoración.</p>
+      <div class="contenedor-centrado">
+  <img src="https://cdn.wallapop.com/images/10420/gz/3c/__/c10420p1026401882/i5005444325.jpg?pictureSize=W640" alt="Descripción de la imagen">
+</div>
+      <p><strong>¿Quieres un encargo inmediato?</strong> Envíanos tu modelo (o la idea) a nuestro WhatsApp para una atención más rápida:</p>
+      <a class="whatsapp-button" href="https://wa.me/573004763794" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+    </section>
+
+ 
+    <section id="cad" class="tab-content" role="tabpanel">
+      <h2>A. Piezas CAD y Prototipos Técnicos</h2>
+      <p>Ideal para <strong>ingeniería, repuestos mecánicos</strong> o piezas que requieren alta precisión funcional. Utilizamos materiales resistentes (PETG, ABS, ASA).</p>
+      <p style="font-weight:bold; color:#ff8a2b;">Para encargos CAD, sigue estos 2 pasos indispensables:</p>
+
+      <a class="tab-button" style="display:block; width:100%; background: linear-gradient(180deg,#ff8a2b,#ff6e1a); color:#040404; text-align:center; margin-bottom:10px;" href="https://docs.google.com/forms/d/e/1FAIpQLSdg6iR2SRVn-UAz8ASnNVoJZMJxNbnOtWeAAC5n92077fMa7w/viewform?usp=header" target="_blank" rel="noopener noreferrer">1. Subir Planos y Archivos CAD aquí</a>
+      <p style="text-align:center; font-size:0.9rem; color:#cfcfcf;">(Se abrirá un formulario seguro para adjuntar archivos STL, OBJ, etc.)</p>
+
+      <hr style="border:none; border-top:1px dashed rgba(255,255,255,0.04); margin:18px 0;">
+
+      <p>Una vez hayas subido los archivos, haz clic abajo para contactarnos, confirmar la recepción y cotizar tu proyecto.</p>
+      <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20acabo%20de%20subir%20mis%20planos%20CAD%20para%20una%20cotización.%20Mi%20nombre%20es:" target="_blank" rel="noopener noreferrer" style="display:block; width:100%; text-align:center; padding:14px;">2. Notificarnos por WhatsApp para Cotizar</a>
+    </section>
+
+    <section id="catalogo" class="tab-content" role="tabpanel">
+      <h2>Catálogo de Productos Disponibles (Estilo Mostrador)</h2>
+      <p>Explora nuestra galería de productos listos para imprimir.Recuerda que pueden ayudarte o darte ideas sobre que quieres pedir. Selecciona el tuyo y coordina el envío. Precios en COP. <strong>El servicio de multicolor cuesta $5.000 más al pedido sin importar el tamaño o el peso.</strong></p>
+      <em style="color:#cfcfcf">Las medidas son el alto y de ahí se escala.</em>
+
+      <div class="product-grid">
+       
+        <article class="product-card">
+       
+          <h3>Regice</h3>
+           <img src="imagenes/regice.png" alt="Regice">
+
+          <p>Un pokemón de colección. 10 cm. Regice es un Pokémon legendario de tipo Hielo</p>
+          <div class="price"><strong>$10.000 COP</strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20a%20Regice%20de%20Pokémon%20por%20$10.000%20COP." target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+
+   
+      
+      
+        <article class="product-card">
+         
+          <h3>El Primo</h3>
+          <img src="imagenes/primo.png" alt="El Primo">
+
+          <p>Brawl Stars (20cm) El personaje más fornido de Brawl Stars llegando a tus manos
+          </p>
+          <div class="price"><strong>$30.000 COP</strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20El%20primo%20de%20Brwal%20Stars%20$30.000%20COP." target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+
+
+        <article class="product-card">
+        
+          <h3>Mini PEKKA</h3>
+            <img src="imagenes/minipekka.png" alt="Mini P.E.K.K.A">
+
+          <p>Modelos de Alta calidad. Materializa el épico personaje del famoso videojuego
+          </p>
+          <div class="price"><strong>$15.000 COP </strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20la%20figura%MiniPEKKA" target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+
+      
+        <article class="product-card">
+          
+          <h3>Caja de Cartas</h3>
+          <img src="imagenes/caja.png" alt="Caja 3D">
+          <p>Ideal para TCG (Magic, Pokémon) o juegos de mesa. Material resistente.</p>
+          <div class="price"><strong>$35.000 COP</strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20me%20interesa%20la%20Caja%20Organizadora%20de%20Cartas" target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+
+
+          <article class="product-card">
+         
+          <h3>Hornet</h3>
+           <img src="imagenes/hornet.png" alt="Hornet">
+          <p>Desde Silksong (10cm)</p>
+          <div class="price"><strong>$20.000 COP</strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20a%20Hornet%20por%2020.000%20COP." target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+      
+
+        <article class="product-card">
+        
+          <h3>PEKKA</h3>
+         <img src="imagenes/pekka.png" alt="PEKKA">
+
+          <p>Modelos de Alta calidad.</p>
+          <div class="price"><strong>$15.000 COP </strong></div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20la%20figura%PEKKA" target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+        </article>
+
+      </div>
+
+      <button class="tab-button" style="background:linear-gradient(180deg,#8D2FE9,#6a1bbf); color:#fff; margin-top:18px;" onclick="document.getElementById('nequi-instructions').style.display='block'">💰 Pagar con Nequi / Bancolombia</button>
+
+      <div id="nequi-instructions" class="nequi-panel" style="display:none;">
+        <h3>Instrucciones para Pago Digital</h3>
+        <p>Para completar tu compra, realiza una <strong>transferencia directa</strong> a:</p>
+        <table>
+          <thead><tr><th>Método</th><th>Número</th><th>A Nombre de</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nequi PSE</strong></td><td>321 477 4701</td><td>Cielo Torres</td></tr>
+          </tbody>
+        </table>
+        <p style="color:#ffb3a0;"><strong>⚠️ IMPORTANTE:</strong> Envía el comprobante de pago y tu número de pedido a nuestro WhatsApp para confirmar el envío.</p>
+        <a class="whatsapp-button" href="https://wa.me/573004763794" target="_blank" rel="noopener noreferrer">Enviar Comprobante por WhatsApp</a>
+      </div>
+    </section>
+
+
+    <section id="variedades" class="tab-content" role="tabpanel">
+      <h2>Diseño y Utilidades para tu Hogar o Negocio</h2>
+      <p>Productos que combinan diseño y funcionalidad: soportes, macetas, organizadores y más.</p>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <img src="https://i.ytimg.com/vi/25vVTfRmd_U/maxresdefault.jpg" alt="Soporte Ergonómico">
+          <h3>Soporte Ergonómico para Celular/Tablet</h3>
+          <p>Diseño plegable o fijo. ¡Nunca más se caerá tu teléfono!</p>
+          <div class="price">Desde <strong>$12.000 COP</strong></div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb5t-2wioXGyBhD9j9OgygyvK24CMiVbMhCA&s" alt="Maceta Geométrica">
+          <h3>Maceta Decorativa Geométrica</h3>
+          <p>Varios tamaños y colores. Perfecta para suculentas.</p>
+          <div class="price">Desde <strong>$8.000 COP</strong></div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://http2.mlstatic.com/D_NQ_NP_600574-MLA46251863963_062021-O.webp" alt="Organizador de cables">
+          <h3>Organizadores y Clips de Cableado</h3>
+          <p>Soluciones personalizadas para tu setup o escritorio.</p>
+          <div class="price">Preguntar precio</div>
+          <a class="whatsapp-button" href="https://wa.me/573004763794" target="_blank" rel="noopener noreferrer">Cotizar</a>
+        </article>
+      </div>
+
+      <h3 style="margin-top:16px;">Publicidad y Señalización</h3>
+      <ul style="color:#d4d4d4;">
+        <li><strong>Avisos o Carteles Personalizados:</strong> Logos o textos para pared.</li>
+        <li><strong>Stands para Productos:</strong> Bases a medida para exhibición.</li>
+        <li><strong>Sellos o Emblemas:</strong> Para marcar tu empaque.</li>
+      </ul>
+      <a class="whatsapp-button" href="https://wa.me/573004763794" target="_blank" rel="noopener noreferrer">Cotizar Utilidades y Publicidad</a>
+    </section>
+
+
+    <section id="mega" class="tab-content" role="tabpanel">
+      <h2>Proyectos a Gran Escala y Maquetas</h2>
+      <p>Proyectos que requieren ingeniería, múltiples impresiones y post-procesado profesional.</p>
+
+      <div class="product-grid" style="grid-template-columns:1fr 1fr;">
+        <article class="product-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXbTBqPax4KtssEuaFbH5sUuTU_AGNry0Gdg&s" alt="Armadura">
+          <h3>Armaduras y Cosplay a Escala 1:1</h3>
+          <p>Impresión de trajes completos en secciones modulares. Requiere planificación y ensamblaje profesional.</p>
+          <div class="price"><strong>Cotización Personalizada</strong></div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://media.cgtrader.com/variants/m1ah9AFsr5VyKwpY2T8EX1Fk/78add9c2f02fbd73a43ffb3970be38683c5f15eff6ca849dc78c644f4ff9ce1b/01.webp" alt="Maqueta avión">
+          <h3>Vehículos</h3>
+          <p>Modelos de más de 80 cm. Ideal para exhibición en ferias o colecciones.</p>
+          <div class="price"><strong>Cotización Personalizada</strong></div>
+        </article>
+
+        <article class="product-card">
+          <img src="https://preview.redd.it/okay-show-me-your-best-3d-prints-v0-dvbdbgchlimb1.jpeg?width=4032&auto=webp&s=cc38f1c7dd731a34727a04210d9cc0b1c2d72742" alt="Maqueta">
+          <h3>Maquetas Arquitectónicas </h3>
+          <p>Modelos de más de 80 cm. Ideal para exhibición en ferias o colecciones.</p>
+          <div class="price"><strong>Cotización Personalizada</strong></div>
+        </article>
+         <article class="product-card">
+          <img src="https://blog.bricogeek.com/img_cms/3113-brazo-robot-6-ejes-impresor-3d-manual.jpg" alt="Robots">
+          <h3>Proyectos con electrónica</h3>
+          <p>Robots y maquinas</p>
+          <div class="price"><strong>Cotización Personalizada</strong></div>
+        </article>
+      </div>
+
+      <p style="margin-top:10px;">Los mega proyectos se cotizan por horas de máquina, material especializado y tiempo de post-procesamiento.</p>
+      <a class="whatsapp-button" style="display:block; width:100%; text-align:center;" href="https://wa.me/573004763794?text=Hola,%20quisiera%20cotizar%20un%20mega%20proyecto%20de%20impresi%C3%B3n." target="_blank" rel="noopener noreferrer">¡Inicia tu Mega Proyecto Aquí!</a>
+    </section>
+
+    <footer>
+      <small>© 2025 Extruying 3D — Innovación en cada capa. &nbsp; | &nbsp; <a href="https://wa.me/573004763794" style="color:#cfd8d0; text-decoration:none;">Soporte por WhatsApp</a></small>
+    </footer>
+  </div>
+
+  
+  <script>
+    const slideIndices = {};
+
+    function showSlides(sliderId, n) {
+      const container = document.getElementById(sliderId);
+      if (!container) return;
+      const slides = container.querySelectorAll('.slider-image-item');
+      if (!slides.length) return;
+      if (n > slides.length) slideIndices[sliderId] = 1;
+      if (n < 1) slideIndices[sliderId] = slides.length;
+      slides.forEach(s => s.classList.remove('active'));
+      slides[slideIndices[sliderId] - 1].classList.add('active');
+    }
+
+    function plusSlides(btn, n) {
+      const container = btn.closest('.product-slider-container');
+      const id = container.id;
+      slideIndices[id] = (slideIndices[id] || 1) + n;
+      showSlides(id, slideIndices[id]);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const sliders = document.querySelectorAll('.product-slider-container');
+      sliders.forEach(slider => {
+        slideIndices[slider.id] = 1;
+        showSlides(slider.id, 1);
+
+        // rotación automática
+        setInterval(() => {
+          slideIndices[slider.id]++;
+          showSlides(slider.id, slideIndices[slider.id]);
+        }, 5000);
+      });
+    });
+
+    function openTab(evt, tabName) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(t => t.style.display = 'none');
+      document.getElementById(tabName).style.display = 'block';
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      evt.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

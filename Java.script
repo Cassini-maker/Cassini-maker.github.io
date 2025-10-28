@@ -1,0 +1,7 @@
+// Esperar a que el logo termine de pulsar y dejarlo fijo
+window.addEventListener("load", () => {
+  const logo = document.querySelector(".logo-container");
+  setTimeout(() => {
+    logo.style.animation = "none";
+  }, 9000); // 3 pulsos de 3 segundos cada uno
+});
