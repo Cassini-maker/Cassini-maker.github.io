@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Servicio de impresión 3D personalizada en Medellín. Prototipos, figuras, piezas CAD y mega proyectos.">
   <title>Extruying 3D | Impresión Personalizada</title>
   <style>
    
@@ -54,6 +55,20 @@
       justify-content:center;
       margin: 0 auto;
     }
+    .whatsapp-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  background: #25D366;
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 999;
+}
 
     /* Logo image: pulso 3 veces al cargar, luego queda fija */
     .logo-emblem img {
@@ -155,7 +170,7 @@
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 18px;
       margin-top: 14px;
-      height: 200;
+      height: 200px;
     }
 
     .product-card {
@@ -164,7 +179,7 @@
       overflow: hidden;
       border: 1px solid rgba(255,140,40,0.04);
       transition: transform .18s ease, box-shadow .18s ease;
-      height:10;
+      height:10px;
     }
 
     .product-card:hover {
@@ -272,7 +287,7 @@
 </head>
 <body>
   <div class="container">
- 
+ <header>
       <div class="logo-emblem" aria-hidden="true">
       
         <img src="https://i.imgur.com/xLK0nMv.png" alt="Logo Extruying 3D - emblema">
@@ -354,7 +369,7 @@
           <p>Modelos de Alta calidad. Materializa el épico personaje del famoso videojuego
           </p>
           <div class="price"><strong>$15.000 COP </strong></div>
-          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20la%20figura%MiniPEKKA" target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
+          <a class="whatsapp-button" href="https://wa.me/573004763794?text=Hola,%20quisiera%20comprar%20la%20figura%20MiniPEKKA" target="_blank" rel="noopener noreferrer">Pagar/Comprar (Contáctame)</a>
         </article>
 
       
@@ -531,7 +546,9 @@
     }
   </script>
 </body>
+  <a href="https://wa.me/573004763794" class="whatsapp-float" target="_blank">💬 WhatsApp</a>
 </html>
+
 
 
 
